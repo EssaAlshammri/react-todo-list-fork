@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import TextDisplay from './TextDisplay';
+import actions  from '../redux/actions';
 
-class TextInput extends Component{
+class TodoInput extends Component{
     constructor(props, context){
         super(props, context)
         this.state = {
-            inputText: 'inital text'
+            inputText: ''
         }
     }
 
@@ -15,10 +15,12 @@ class TextInput extends Component{
         })
     }
 
-    deleteLetter(){
+    handleSubmit(event){
+        //event.preventDefault();
+        this.props.dispatch(actions.addTodo(this.state.inputText))
         this.setState({
-           inputText: this.state.inputText.substring(0, this.state.inputText.length - 1) 
-        });
+            inputText: ''
+        })
     }
 
     render(){
@@ -26,14 +28,14 @@ class TextInput extends Component{
             <div>
                 <input 
                     type='text'
-                    placeholder='place holder'
+                    placeholder='What you wana do ?'
                     value={this.state.inputText}
                     onChange={this.inputTextChange.bind(this)}
                 />
-                <TextDisplay textDisplay={this.state.inputText} deleteLetter={this.deleteLetter.bind(this)}/>
+                <button onClick={this.handleSubmit.bind(this)}>Submit</button>
             </div>
         )
     }
 }
 
-export default TextInput
+export default TodoInput
